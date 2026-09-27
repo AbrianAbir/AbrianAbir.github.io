@@ -332,8 +332,9 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 }
 .hero__portrait img {
   width: 100%; height: 100%;
-  border-radius: 22px;
+  border-radius: 20%;
   object-fit: cover;
+  corner-shape: squircle;
   object-position: center 18%;
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--border-strong),
@@ -400,7 +401,6 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
     width: clamp(110px, 30vw, 150px);
     justify-self: start;
   }
-  .hero__portrait img { border-radius: 14px; }
 }
 @media (max-width: 640px) {
   .hero { padding-block: 1.5rem var(--s6); }
@@ -500,7 +500,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 }
 
 .tag {
-  font-family: var(--font-mono); font-size: .72rem;
+  font-family: var(--font-mono); font-size: .82rem;
   color: var(--text-dim); background: var(--surface-2);
   border: 1px solid var(--border); border-radius: 5px;
   padding: .12rem .45rem; white-space: nowrap;
@@ -513,7 +513,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   border: 1px solid var(--border); border-radius: var(--radius);
   padding: var(--s3); background: color-mix(in srgb, var(--surface) 55%, transparent);
 }
-.skillgroup h4 { font-size: var(--step-0); margin-bottom: .3rem; }
+.skillgroup h4 { font-size: var(--step-1); margin-bottom: .3rem; }
 .skillgroup > p { color: var(--text-faint); font-size: var(--step--1); margin-bottom: var(--s2); font-style: italic; }
 .skillgroup ul { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem; }
 .skillgroup .sub {
