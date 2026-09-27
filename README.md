@@ -34,6 +34,6 @@ This portfolio showcases technical write-ups and documentation across several ar
 
 ## Contact \& Links
 
-* **Website:** [abrianabir.github.io](https://abrianabir.github.io)
-* **LinkedIn:** [Abrian Abir](https://www.linkedin.com/in/abrian-abir)
+* **Website:** [AbrianAbir.github.io](https://AbrianAbir.github.io)
+* **LinkedIn:** [Abrian Abir](https://www.linkedin.com/in/AbrianAbir)
 * **GitHub:** [@AbrianAbir](https://github.com/AbrianAbir)
