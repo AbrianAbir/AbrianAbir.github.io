@@ -576,7 +576,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .interests p { color: var(--text-dim); font-size: calc(var(--step-0) * .93); line-height: 1.6; }
 
 /* ---------- 15. contact -------------------------------- */
-.contact-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0, 350px); gap: var(--s5); align-items: start; }
+.contact-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0, 425px); gap: var(--s5); align-items: start; }
 @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: var(--s4); } }
 .contact-lead { font-size: var(--step-1); font-weight: 600; letter-spacing: -.025em; line-height: 1.25; margin-bottom: var(--s3); max-width: 26ch; }
 .contact-grid p { color: var(--text-dim); max-width: var(--measure); }
@@ -586,11 +586,11 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .card-term__bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .75rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
 .card-term__bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
 .card-term__bar span { font-family: var(--font-mono); font-size: .72rem; color: var(--text-faint); margin-left: .35rem; }
-.card-term dl { margin: 0; padding: var(--s3); display: grid; grid-template-columns: 5.5rem 1fr; gap: .35rem .65rem; font-family: var(--font-mono); font-size: var(--step--1); }
+.card-term dl { margin: 0; padding: var(--s3); display: grid; grid-template-columns: 8rem 1fr; gap: .35rem .65rem; font-family: var(--font-mono); font-size: var(--step--1); }
 .card-term dt { color: var(--text-faint); }
 .card-term dd { margin: 0; overflow-wrap: anywhere; min-width: 0; }
 /* the 5.5rem label column + a long email overflows a narrow phone */
-@media (max-width: 420px) { .card-term dl { grid-template-columns: 4.5rem 1fr; } }
+@media (max-width: 420px) { .card-term dl { grid-template-columns: 7rem 1fr; } }
 
 /* ---------- 16. footer --------------------------------- */
 .footer {
