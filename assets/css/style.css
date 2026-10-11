@@ -709,6 +709,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: space-between;
 }
 .footer a { color: var(--text-dim); }
+.footer__updated { color: var(--text-dim); }
 
 /* ---------- 17. project pages -------------------------- */
 .proj-hero { padding-block: var(--s5) var(--s4); border-bottom: 1px solid var(--border); }
