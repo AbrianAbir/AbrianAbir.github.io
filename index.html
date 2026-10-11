@@ -6,6 +6,10 @@
   } catch { document.documentElement.dataset.theme = 'dark'; } })();
 </script><script type="speculationrules">
 {"prefetch":[{"where":{"selector_matches":".card a, .proj-nav a, .backlink, .pal a"},"eagerness":"moderate"}]}
+</script><script>
+  if ("serviceWorker" in navigator) {
+    addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
+  }
 </script><script type="application/ld+json">
 {
   "@context": "https://schema.org",
