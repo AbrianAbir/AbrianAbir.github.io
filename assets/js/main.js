@@ -188,6 +188,7 @@
 
   if (supportsVT) {
     const KEY = 'vt:from-slug';
+    let revealing = false;
 
     const slugOf = url => {
       try {
@@ -258,12 +259,13 @@
     });
 
     addEventListener('pagereveal', e => {
+      revealing = Boolean(e.viewTransition);
       if (!e.viewTransition) { root.removeAttribute('data-vt-arriving'); unstash(); return; }
       if (reduced()) {
         e.viewTransition.skipTransition();
         root.removeAttribute('data-vt-arriving');
         root.removeAttribute('data-vt-dir');
-        untag(); unstash();
+        untag(); unstash(); revealing = false;
         return;
       }
 
@@ -279,13 +281,26 @@
       }
 
       const cleanup = () => {
+        revealing = false;
         root.removeAttribute('data-vt-arriving');
         root.removeAttribute('data-vt-dir');
         untag();
       };
-      e.viewTransition.finished.then(cleanup, () => root.removeAttribute('data-vt-arriving'));
+      e.viewTransition.finished.then(cleanup, cleanup);
 
       setTimeout(cleanup, 1200);
+    });
+
+    // Some browsers can reveal a restored history entry before the handler is attached.
+    addEventListener('pageshow', () => {
+      if (revealing) return;
+      const from = unstash();
+      if (!hereSlug() && from) {
+        settleFragment();
+        tagCard(from);
+      }
+      root.removeAttribute('data-vt-arriving');
+      root.removeAttribute('data-vt-dir');
     });
 
     addEventListener('pagehide', () => { untag(); shutOverlays(); });
@@ -293,7 +308,7 @@
 
   /* ---- console note ----------------------------------------- */
   console.log(
-    '%c> abrian abir%c\n  built by hand. no framework, no build step at runtime.\n  content lives in /data/site.json — run `python build.py` to regenerate.\n  if you are reading this, we will probably get along.',
+    '%c> abrian abir%c\n  built by hand. no framework, no build step at runtime.\n  if you are reading this, we will probably get along.',
     'color:#4FD1C5;font-weight:700;font-family:monospace;font-size:13px',
     'color:#8B949E;font-family:monospace;font-size:12px'
   );
