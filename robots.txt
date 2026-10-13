@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://AbrianAbir.github.io/sitemap.xml
+Sitemap: https://abrianabir.github.io/sitemap.xml

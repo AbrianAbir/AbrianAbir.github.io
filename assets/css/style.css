@@ -288,6 +288,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   transition: transform .18s var(--ease), border-color .2s, background .2s, color .2s;
 }
 .btn:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.btn svg { width: 15px; height: 15px; flex: 0 0 auto; }
 .btn--primary { background: var(--accent); color: #07110F; border-color: var(--accent); font-weight: 600; }
 [data-theme="light"] .btn--primary { color: #FDFDFC; }
 .btn--primary:hover { color: #07110F; background: color-mix(in srgb, var(--accent) 86%, white); }
@@ -408,9 +409,9 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--data-green) 14%, transparent);
 }
 .hero__stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   width: min(100%, 300px);
-  justify-content: space-between;
   gap: var(--s2);
   padding-top: .25rem;
 }
@@ -418,6 +419,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   display: grid;
   gap: .1rem;
   min-width: 0;
+  text-align: center;
 }
 .hero__stats strong {
   font-family: var(--font-mono);
@@ -430,7 +432,8 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   color: var(--text-faint);
   font-family: var(--font-mono);
   font-size: .65rem;
-  white-space: nowrap;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .eyebrow {
@@ -539,6 +542,12 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .about-grid p + p { margin-top: var(--s2); }
 .about-grid h3 { margin-top: var(--s4); margin-bottom: var(--s2); font-size: var(--step-1); }
 .about-closer { margin-top: var(--s3); }
+.about-more { margin-top: var(--s3); }
+.about-more a { color: var(--accent); font-family: var(--font-mono); font-size: var(--step--1); }
+.details-page { padding-block: var(--s5) var(--s7); }
+.details-page h1 { font-size: var(--step-3); margin-bottom: var(--s2); }
+.details-lede { color: var(--text-dim); max-width: 58ch; margin-bottom: var(--s5); }
+.details-page section + section { margin-top: var(--s6); }
 
 .timeline { list-style: none; position: sticky; top: 96px; }
 .timeline li { position: relative; padding-left: 1.4rem; padding-bottom: var(--s3); border-left: 1px solid var(--border); }
@@ -557,6 +566,14 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .tick-list li { position: relative; padding-left: 1.5rem; margin-bottom: .4rem; color: var(--text-dim); }
 .tick-list li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); font-size: .8em; top: .15em; }
 .tick-list li > span { display: block; }
+.credentials { margin-top: var(--s4); }
+.credentials h3 { margin-top: 0; }
+.credentials ul { list-style: none; display: grid; gap: .45rem; max-width: var(--measure); }
+.credentials li {
+  color: var(--text-dim); font-family: var(--font-mono); font-size: var(--step--1);
+  padding-left: 1.5rem; position: relative;
+}
+.credentials li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
 
 /* ---------- 10. project cards -------------------------- */
 /* Asymmetric on purpose. Six identical boxes in a 2x3 grid is what makes
@@ -589,10 +606,26 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .card h3 a::after { content: ""; position: absolute; inset: 0; }
 .card h3 a:hover { color: var(--accent); text-decoration: none; }
 .card p { color: var(--text-dim); font-size: calc(var(--step-0) * .96); flex: 1; }
+.card .card__metric {
+  flex: 0 0 auto; color: var(--accent); font-family: var(--font-mono);
+  font-size: var(--step--1); letter-spacing: .01em; margin-bottom: .35rem;
+}
 .card__tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: var(--s2); }
 .card__more { font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent); margin-top: var(--s2); }
 .card:hover .card__more .arw { transform: translateX(4px); }
 .card__more .arw { display: inline-block; transition: transform .25s var(--ease); }
+.card--private {
+  background: color-mix(in srgb, var(--surface-2) 72%, var(--bg));
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+.card--private::after { display: none; }
+.card--private h3 { color: var(--text); }
+.card--private .card__metric { color: var(--text-faint); }
+.card--private .card__more {
+  color: var(--text-faint); text-transform: lowercase; letter-spacing: .01em;
+}
+.card--private .card__more a { color: var(--accent); position: relative; z-index: 1; }
+.card--private .card__more a:hover { text-decoration: none; }
 
 /* Lead card spans the row. Targeted structurally rather than with a
    modifier class so build.py stays untouched and the view-transition
@@ -606,6 +639,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   }
   .cards .card:first-child h3 { font-size: var(--step-2)}
   .cards .card:first-child > p { font-size: var(--step-1); line-height: 1.4; }
+  .cards .card:first-child > p.card__metric { font-size: var(--step--1); line-height: 1.4; }
   .cards .card:first-child .card__idx { margin-bottom: var(--s2); }
 }
 
