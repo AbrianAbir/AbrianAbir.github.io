@@ -20,19 +20,19 @@
 
 /* ---------- 1. tokens ---------------------------------- */
 :root {
-  --bg:            #141a23;
-  --bg-grid:       #21252b;
-  --surface:       #1f242b;
-  --surface-2:     #1C222B;
-  --border:        #ffffff0f;
-  --border-strong: #30363D;
-  --text:          #E6EDF3;
-  --text-dim:      #8B949E;
-  --text-faint:    #6E7681;
-  --accent:        #4FD1C5;
-  --accent-alt:    #F0883E;
-  --data-green:    #3FB950;
-  --shadow:        0 1px 2px rgb(0 0 0 / .4), 0 8px 24px rgb(0 0 0 / .24);
+  --bg:            #f1efe9;
+  --bg-grid:       #e3dfd7;
+  --surface:       #faf7f2;
+  --surface-2:     #f0ece4;
+  --border:        #d7d0c5;
+  --border-strong: #b7b0a6;
+  --text:          #171b20;
+  --text-dim:      #4e4d4a;
+  --text-faint:    #7a6f66;
+  --accent:        #c75a2f;
+  --accent-alt:    #d28a56;
+  --data-green:    #2a7d63;
+  --shadow:        0 1px 2px rgb(17 17 17 / .08), 0 18px 36px rgb(17 17 17 / .08);
 
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -49,25 +49,25 @@
   --s5: 3rem;   --s6: 4.5rem; --s7: 7.5rem;
 
   --measure: 70ch;
-  --wide: 950px;
+  --wide: 1080px;
   --radius: 10px;
   --ease: cubic-bezier(.22, 1, .36, 1);
   --nav-h: 62px;
 }
 
 [data-theme="light"] {
-  --bg:            #FDFDFC;
-  --bg-grid:       #E9E9E4;
-  --surface:       #F5F5F1;
-  --surface-2:     #EDEDE7;
-  --border:        #DDDDD6;
-  --border-strong: #C6C6BD;
-  --text:          #1C1F26;
-  --text-dim:      #55595F;
-  --text-faint:    #7A7F86;
-  --accent:        #0c675e;
+  --bg:            #f9f6f1;
+  --bg-grid:       #ece5dc;
+  --surface:       #fffdf9;
+  --surface-2:     #f3eee5;
+  --border:        #ddd2c7;
+  --border-strong: #c2b5aa;
+  --text:          #12171d;
+  --text-dim:      #4d4d4a;
+  --text-faint:    #736c65;
+  --accent:        #c75a2f;
   --accent-alt:    #B85C10;
-  --data-green:    #165524;
+  --data-green:    #1f6b54;
   --shadow:        0 1px 2px rgb(0 0 0 / .06), 0 8px 24px rgb(0 0 0 / .07);
 }
 
@@ -153,17 +153,13 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 /* ---------- 5. nav ------------------------------------- */
 .nav {
   position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(14px) saturate(160%);
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(14px) saturate(140%);
+  background: color-mix(in srgb, var(--bg) 83%, transparent);
+  border-bottom: 1px solid var(--border);
   transition: border-color .25s var(--ease), background .25s var(--ease);
 }
-.nav[data-scrolled="true"] { border-bottom-color: var(--border); }
+.nav[data-scrolled="true"] { border-bottom-color: var(--border-strong); }
 
-/* `min-width: 0` on the row and the brand: flex items default to
-   min-width:auto, so a nowrap brand refuses to shrink and pushes the
-   row wider than the viewport. That overflow was the side-to-side
-   scroll on small phones. */
 .nav__inner {
   width: min(100% - 2rem, var(--wide)); margin-inline: auto;
   display: flex; align-items: center; gap: var(--s3); height: var(--nav-h);
@@ -173,6 +169,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   font-family: var(--font-mono); font-size: var(--step--1);
   color: var(--text); letter-spacing: -.02em; margin-right: auto; white-space: nowrap;
   min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  text-transform: lowercase;
 }
 .nav__brand::after { content: "_"; color: var(--accent); animation: blink 1.25s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -181,6 +178,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .nav__links a {
   font-family: var(--font-mono); font-size: var(--step--1);
   color: var(--text-dim); position: relative; padding-block: 4px; text-decoration: none;
+  text-transform: lowercase;
 }
 .nav__links a::after {
   content: ""; position: absolute; left: 0; bottom: 0;
@@ -285,14 +283,14 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   border: 1px solid var(--border-strong);
   color: var(--text); background: var(--surface);
   text-decoration: none; cursor: pointer;
-  transition: transform .18s var(--ease), border-color .2s, background .2s, color .2s;
+  transition: transform .18s var(--ease), border-color .2s, background .2s, color .2s, box-shadow .2s ease;
 }
-.btn:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.btn:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 10px 24px rgb(199 90 47 / .12); }
 .btn svg { width: 15px; height: 15px; flex: 0 0 auto; }
-.btn--primary { background: var(--accent); color: #07110F; border-color: var(--accent); font-weight: 600; }
-[data-theme="light"] .btn--primary { color: #FDFDFC; }
-.btn--primary:hover { color: #07110F; background: color-mix(in srgb, var(--accent) 86%, white); }
-[data-theme="light"] .btn--primary:hover { color: #FDFDFC; }
+.btn--primary { background: var(--accent); color: #fff8f4; border-color: var(--accent); font-weight: 600; }
+[data-theme="light"] .btn--primary { color: #fffaf6; }
+.btn--primary:hover { color: #fff8f4; background: color-mix(in srgb, var(--accent) 90%, black 10%); }
+[data-theme="light"] .btn--primary:hover { color: #fffaf6; }
 .btn--ghost { background: transparent; }
 .btn--sm { padding: .42rem .75rem; }
 
@@ -304,15 +302,11 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 }
 .hero__plot {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: .09; pointer-events: none;
+  opacity: .12; pointer-events: none;
   mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 70%, transparent);
 }
 .hero__plot path { fill: none; stroke: var(--accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .hero__plot .grid { stroke: var(--text-faint); stroke-width: .5; opacity: .5; }
-/* `stroke-dashoffset` is not a compositable property, so the draw effect
-   repaints the whole path on the main thread every frame. On a mid-range
-   phone that competes with first paint, so mobile gets a composited
-   opacity fade instead and only desktop runs the draw. */
 .hero__plot .trace { opacity: 0; animation: trace-in 1s var(--ease) .15s forwards; }
 @keyframes trace-in { to { opacity: 1; } }
 
@@ -330,36 +324,28 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   position: relative; z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(290px, .72fr);
-  gap: clamp(2rem, 6vw, 6rem);
+  gap: clamp(2rem, 6vw, 5rem);
   align-items: center;
 }
 
-/* ---- portrait -----------------------------------------------------
-   Rounded rectangle, no glow. The circle-plus-colored-bloom treatment
-   is the most era-specific element a personal site can have, and the
-   circle fought the rectilinear grid that everything else here uses.
-   Depth now comes from a hairline ring and a real shadow. */
 .hero__portrait {
   margin: 0;
   position: relative;
   width: min(100%, 300px);
   aspect-ratio: 1;
   justify-self: end;
+  padding: .6rem;
+  border: 1px solid var(--border);
+  border-radius: 1.6rem;
+  background: color-mix(in srgb, var(--surface) 88%, white 12%);
+  box-shadow: var(--shadow);
 }
 .hero__portrait img {
   width: 100%; height: 100%;
-  border-radius: 20%;
+  border-radius: 1.25rem;
   object-fit: cover;
-  corner-shape: squircle;
   object-position: center 18%;
   background: var(--surface);
-  box-shadow: 0 0 0 1px var(--border-strong),
-    0 24px 48px -18px rgb(162 162 162 / 20%);
-}
-[data-theme="light"] .hero__portrait img {
-  box-shadow:
-    0 0 0 1px var(--border-strong),
-    0 24px 48px -20px rgb(0 0 0 / .60);
 }
 
 .hero__visual {
@@ -373,9 +359,10 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   position: absolute;
   width: 74%;
   aspect-ratio: 1;
-  right: -5%;
+  right: -4%;
   top: -8%;
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  background: linear-gradient(135deg, transparent 0%, color-mix(in srgb, var(--accent) 10%, transparent) 100%);
   border-radius: 28%;
   transform: rotate(8deg);
   pointer-events: none;
@@ -417,9 +404,13 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 }
 .hero__stats span {
   display: grid;
-  gap: .1rem;
+  gap: .15rem;
   min-width: 0;
   text-align: center;
+  padding: .7rem .4rem;
+  border: 1px solid var(--border);
+  border-radius: .7rem;
+  background: rgba(255,255,255,.08);
 }
 .hero__stats strong {
   font-family: var(--font-mono);
@@ -443,16 +434,14 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .hero h1 { margin-bottom: .5rem; }
 .hero__creds { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-faint); margin-bottom: var(--s2); }
 
-/* Static. The typewriter cycle delayed the actual message by two
-   seconds, reflowed on every keystroke, and is a 2015 tell. One line,
-   stated once, at display weight. */
 .hero__headline {
-  font-size: var(--step-3); font-weight: 600; letter-spacing: -.025em;
-  line-height: 1.15; max-width: 28ch; margin-bottom: var(--s2);
+  font-size: clamp(2.3rem, 4.5vw, 3.5rem);
+  font-weight: 700; letter-spacing: -.075em;
+  line-height: 0.95; max-width: 20ch; margin-bottom: var(--s2);
   color: var(--text);
+  text-transform: uppercase;
   text-wrap: balance;
 }
-/* JS removes this node; the rule is the no-JS fallback. */
 .hero__headline .cursor { display: none; }
 
 .hero__pitch { max-width: 54ch; color: var(--text-dim); font-size: var(--step-0); line-height: 1.6; margin-bottom: var(--s4); }
@@ -463,9 +452,6 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 }
 .hero__meta span { display: inline-flex; align-items: center; gap: .45rem; }
 .hero__meta svg { width: 14px; height: 14px; color: var(--text-faint); }
-/* The halo used to be an animated `box-shadow`, which repaints on the
-   main thread. A pseudo-element scaling and fading uses only `transform`
-   and `opacity`, both of which the compositor can run by itself. */
 .dot {
   position: relative;
   width: 7px; height: 7px; border-radius: 50%; background: var(--data-green);
@@ -522,18 +508,42 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 
 /* ---------- 8. section headers ------------------------- */
 .sec-label {
-  /* an <h2> for document outline; styled as a small mono label.
-     size/weight reset so the heading default doesn't win. */
-  font-family: var(--font-mono); font-size: var(--step--1);
-  font-weight: 400; letter-spacing: 0; line-height: 1.7;
+  font-family: var(--font-mono); font-size: .7rem;
+  font-weight: 500; letter-spacing: .15em; line-height: 1.7;
   color: var(--text-faint); margin-bottom: var(--s2);
-  display: flex; align-items: center; gap: .6rem;
+  display: flex; align-items: center; gap: .7rem;
+  text-transform: uppercase;
 }
 .sec-label::before { content: "//"; color: var(--accent); }
 .sec-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 .sec-head { margin-bottom: var(--s4); }
+.sec-head__row {
+  display: flex; align-items: end; justify-content: space-between; gap: var(--s3);
+}
 .sec-head h3 { font-size: var(--step-3); letter-spacing: -.028em; }
 .sec-head p { color: var(--text-dim); max-width: var(--measure); margin-top: var(--s2); }
+@media (max-width: 640px) { .sec-head__row { flex-direction: column; align-items: flex-start; } }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.pub-sort {
+  display: flex; align-items: center; justify-content: flex-end;
+  margin-left: auto;
+}
+.pub-sort__control {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  border: 1px solid var(--border-strong); border-radius: 999px;
+  background: var(--surface); color: var(--text);
+  font: inherit; font-family: var(--font-mono); font-size: var(--step--1);
+  padding: .55rem 2.6rem .55rem .85rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%),
+    linear-gradient(135deg, var(--text-faint) 50%, transparent 50%);
+  background-position: calc(100% - 1.1rem) calc(50% - 2px), calc(100% - .8rem) calc(50% - 2px);
+  background-size: .45rem .45rem, .45rem .45rem;
+  background-repeat: no-repeat;
+}
 
 /* ---------- 9. about ----------------------------------- */
 .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: var(--s5); align-items: start; }
@@ -558,9 +568,27 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   background: var(--bg); border: 1.5px solid var(--border-strong);
 }
 .timeline li[data-now]::before { background: var(--accent); border-color: var(--accent); }
+.timeline__item { position: relative; }
+.timeline__copy { flex: 1; min-width: 0; }
 .timeline .org { font-weight: 600; font-size: var(--step-0); display: block; line-height: 1.35; }
 .timeline .role { color: var(--text-dim); font-size: var(--step--1); display: block; line-height: 1.5; }
 .timeline .yr { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-faint); display: block; }
+.timeline .duration {
+  position: absolute; z-index: 1; left: -2.125rem; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: .62rem; color: var(--text-faint);
+  writing-mode: vertical-rl; text-orientation: mixed;
+  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.45rem; height: 3.75rem; padding: .45rem .2rem; border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+@media (max-width: 640px) {
+  .timeline .duration {
+    left: -2.075rem; width: 1.35rem; height: 4.3rem;
+  }
+}
 
 .tick-list { list-style: none; margin-top: var(--s2); max-width: var(--measure); }
 .tick-list li { position: relative; padding-left: 1.5rem; margin-bottom: .4rem; color: var(--text-dim); }
@@ -690,9 +718,36 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
   padding-top: .25rem; flex: 0 0 2.6rem;
 }
 .pubs li > div { flex: 1 1 auto; min-width: 0; }
+.pub__meta {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .55rem;
+  margin-bottom: .45rem;
+}
 .pubs h4 { font-size: var(--step-1); font-weight: 600; margin-bottom: .3rem; letter-spacing: -.015em; }
-.pubs .journal { font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent); margin-bottom: .5rem; }
+.pubs .journal,
+.pub__meta .journal {
+  font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent);
+}
+.pubs .year,
+.pub__meta .year {
+  font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-faint);
+  border: 1px solid var(--border); border-radius: 999px; padding: .14rem .55rem;
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
 .pubs .why { color: var(--text-dim); font-size: calc(var(--step-0) * .96); max-width: 64ch; }
+.pub__link {
+  margin-top: .7rem;
+}
+.pub__link a {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 999px; padding: .3rem .7rem; transition: background .2s var(--ease), transform .2s var(--ease);
+}
+.pub__link a:hover,
+.pub__link a:focus-visible {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  text-decoration: none; transform: translateY(-1px);
+}
 @media (max-width: 560px) { .pubs li::before { flex-basis: 2rem; } }
 
 /* ---------- 13. philosophy ----------------------------- */
@@ -708,7 +763,7 @@ section[id] + section[id] { border-top: 1px solid var(--border); }
 .interests {
   display: grid; gap: 1px; background: var(--border);
   border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
-  grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
 }
 /* `auto-fill, minmax(258px, …)` overflows a 320px viewport once the
    parent's own border and the page gutter are subtracted. Collapsing to

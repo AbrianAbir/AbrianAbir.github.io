@@ -92,7 +92,35 @@
     }
 
     $('.cursor', hl)?.remove();
-  }    /* ---- card pointer spotlight ------------------------------- */   if (!reduced() && matchMedia('(hover: hover)').matches) {
+  }
+
+  /* ---- publication sorting --------------------------------- */
+  const pubList = $('#publications .pubs');
+  const pubSort = $('#pub-sort');
+  if (pubList && pubSort) {
+    const getYear = item => Number(item.dataset.year || 0);
+    const getTitle = item => item.dataset.title || item.querySelector('h4')?.textContent?.trim() || '';
+    const sortPublications = mode => {
+      const items = [...pubList.children];
+      items.sort((a, b) => {
+        if (mode === 'oldest') {
+          return getYear(a) - getYear(b) || getTitle(a).localeCompare(getTitle(b));
+        }
+        if (mode === 'title') {
+          return getTitle(a).localeCompare(getTitle(b));
+        }
+        return getYear(b) - getYear(a) || getTitle(a).localeCompare(getTitle(b));
+      });
+      items.forEach(item => pubList.appendChild(item));
+      pubList.dataset.sort = mode;
+    };
+
+    pubSort.addEventListener('change', e => sortPublications(e.target.value));
+    sortPublications(pubSort.value || 'newest');
+  }
+
+  /* ---- card pointer spotlight ------------------------------- */
+  if (!reduced() && matchMedia('(hover: hover)').matches) {
     $$('.card').forEach(card => {
       card.addEventListener('pointermove', e => {
         const r = card.getBoundingClientRect();
