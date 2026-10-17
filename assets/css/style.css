@@ -31,7 +31,7 @@
   --text-dim: #b8b0a2;
   --text-faint: #9c9486;
   --accent: #e07246;
-  --accent-alt: #f09558;
+  --accent-alt: #b14317;
   --data-green: #38a178;
   --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 18px 36px rgb(0 0 0 / .35);
 
@@ -62,12 +62,12 @@
 }
 
 [data-theme="light"] {
-  --bg: #f9f6f1;
-  --bg-grid: #ece5dc;
-  --surface: #fffdf9;
+  --bg: #fffcf8;
+  --bg-grid: #d4cec6;
+  --surface: #fff8eb;
   --surface-2: #f3eee5;
   --border: #ddd2c7;
-  --border-strong: #c2b5aa;
+  --border-strong: #906744;
   --text: #12171d;
   --text-dim: #4d4d4a;
   --text-faint: #736c65;
@@ -564,7 +564,7 @@ section[id]+section[id] {
 }
 
 .btn--primary {
-  background: var(--accent);
+  background: var(--accent-alt);
   color: #fff8f4;
   border-color: var(--accent);
   font-weight: 600;
@@ -594,7 +594,7 @@ section[id]+section[id] {
 /* ---------- 7. hero ------------------------------------ */
 .hero {
   position: relative;
-  padding-block: clamp(3.5rem, 8vw, 7rem) var(--s6);
+  padding-block: clamp(3.5rem, 6vw, 5rem) var(--s5);
   overflow: hidden;
 }
 
@@ -898,46 +898,57 @@ section[id]+section[id] {
     justify-items: start;
     grid-template-columns: auto minmax(0, 1fr);
     grid-template-rows: auto auto;
-    align-items: center;
-    gap: .55rem var(--s2);
+    align-items: start;
+    gap: .6rem var(--s3);
   }
 
   .hero__portrait {
-    width: clamp(100px, 26vw, 140px);
+    width: clamp(110px, 22vw, 150px);
     justify-self: start;
     grid-row: 1 / span 2;
-    align-self: center;
+    align-self: start;
+    padding: .5rem;
   }
 
   .hero__visual::before {
-    width: 140px;
+    width: 150px;
     left: -4%;
     right: auto;
-    top: -8%;
+    top: -6%;
   }
 
   .hero__signal {
     grid-column: 2;
     grid-row: 1;
-    width: fit-content;
-    max-width: 100%;
-    padding: .45rem .8rem;
-    border-radius: 999px;
+    width: min(100%, 400px);
+    padding: .55rem .85rem;
+    border-radius: 10px;
+    font-size: .71rem;
+    line-height: 1.4;
   }
 
   .hero__stats {
     grid-column: 2;
     grid-row: 2;
-    width: 100%;
-    max-width: 320px;
-    justify-content: flex-start;
+    width: min(100%, 400px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: .45rem;
     padding-top: 0;
   }
 
   .hero__stats span {
-    padding: .45rem .35rem;
-    border-radius: 999px;
+    padding: .5rem .4rem;
+    border-radius: .6rem;
+    text-align: center;
+  }
+
+  .hero__stats strong {
+    font-size: var(--step-0);
+  }
+
+  .hero__stats small {
+    font-size: .6rem;
+    line-height: 1.2;
   }
 }
 
@@ -983,10 +994,10 @@ section[id]+section[id] {
   .hero__signal {
     grid-column: 2;
     grid-row: 1;
-    width: fit-content;
-    max-width: 100%;
+    width: min(100%, 300px);
     padding: .32rem .65rem;
-    border-radius: 25px;
+    border-radius: 10px;
+    corner-shape: squircle;
     font-size: .62rem;
     line-height: 1.25;
     gap: .4rem;
@@ -1006,8 +1017,7 @@ section[id]+section[id] {
   .hero__stats {
     grid-column: 2;
     grid-row: 2;
-    width: 100%;
-    max-width: 100%;
+    width: min(100%, 300px);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: .3rem;
     padding-top: 0;
@@ -1015,7 +1025,8 @@ section[id]+section[id] {
 
   .hero__stats span {
     padding: .3rem .25rem;
-    border-radius: 999px;
+    border-radius: 10px;
+    corner-shape: squircle;
     gap: .08rem;
   }
 
@@ -1667,27 +1678,31 @@ section[id]+section[id] {
 }
 
 .pub__link {
-  margin-top: .7rem;
+  margin-top: .55rem;
+  display: flex;
+  align-items: baseline;
+  gap: .4rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.pub__link::before {
+  color: var(--text-faint);
+  flex: 0 0 auto;
 }
 
 .pub__link a {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
-  border-radius: 999px;
-  padding: .3rem .7rem;
-  transition: background .2s var(--ease), transform .2s var(--ease);
+  color: var(--text-dim);
+  text-decoration: none;
+  word-break: break-all;
+  transition: color .18s var(--ease);
 }
 
 .pub__link a:hover,
 .pub__link a:focus-visible {
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  text-decoration: none;
-  transform: translateY(-1px);
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 560px) {
