@@ -12,6 +12,52 @@
   const onMQ = (mq, fn) =>
     mq.addEventListener ? mq.addEventListener('change', fn) : mq.addListener(fn);
 
+  /* ---- page boot sequence ----------------------------------- */
+  if (!reduced()) {
+    root.dataset.boot = '';
+    const startBoot = () => { root.dataset.bootIn = ''; };
+    requestAnimationFrame(startBoot);
+    setTimeout(startBoot, 80);
+  }
+
+  /* ---- tactile links and controls --------------------------- */
+  if (!reduced()) {
+    $$('.card__more a, .pub__link a, .about-more a, .contact-grid a, .footer a, .backlink, .proj-nav a, .toc a, .nav__links a, .nav__mobile a').forEach(link => {
+      link.dataset.hoverArrow = '';
+      link.dataset.linkFx = '';
+      link.addEventListener('pointermove', event => {
+        const bounds = link.getBoundingClientRect();
+        link.style.setProperty('--link-x', `${event.clientX - bounds.left}px`);
+        link.style.setProperty('--link-y', `${event.clientY - bounds.top}px`);
+      });
+      link.addEventListener('pointerleave', () => {
+        link.style.removeProperty('--link-x');
+        link.style.removeProperty('--link-y');
+      });
+    });
+
+    const interactive = $$('a, button').filter(element =>
+      !element.closest('.pal__box') &&
+      !element.matches('.skip, [data-magnetic]'));
+
+    interactive.forEach(element => {
+      element.dataset.ripple = '';
+      element.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        element.dataset.pressed = '';
+        const bounds = element.getBoundingClientRect();
+        const ripple = document.createElement('i');
+        ripple.dataset.rippleWave = '';
+        ripple.style.left = `${event.clientX - bounds.left}px`;
+        ripple.style.top = `${event.clientY - bounds.top}px`;
+        element.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(type =>
+        element.addEventListener(type, () => { delete element.dataset.pressed; }));
+    });
+  }
+
   /* ---- theme ------------------------------------------------ */
   const setTheme = t => {
     root.dataset.theme = t;
@@ -56,6 +102,9 @@
 
     const map = new Map(links.map(a => [$(a.hash), a])); const targets = [...map.keys()]; const seen = new Set(); const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); const first = targets.find(t => seen.has(t)); links.forEach(a => a.removeAttribute('aria-current')); if (first) map.get(first).setAttribute('aria-current', 'true'); }, { rootMargin: '-15\% 0px -70\% 0px', threshold: 0 }); targets.forEach(t => io.observe(t));
   }; spy('.nav__links a'); spy('.nav__mobile a'); spy('.toc a');    /* ---- reveal on scroll ------------------------------------- */   const revealables = $$('.reveal');
+  revealables.forEach((element, index) => {
+    element.style.setProperty('--reveal-delay', `${Math.min(index * 35, 280)}ms`);
+  });
   if (reduced()) {
     revealables.forEach(el => el.classList.add('in'));
   } else {
@@ -68,6 +117,25 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     revealables.forEach(el => observer.observe(el));
+  }
+
+  /* ---- animated metrics ------------------------------------- */
+  if (!reduced()) {
+    $$('.hero__stats strong').forEach(metric => {
+      const match = metric.textContent.trim().match(/^(\d+)(\+?)$/);
+      if (!match) return;
+      const target = Number(match[1]);
+      const suffix = match[2];
+      const started = performance.now();
+      const duration = 850;
+      const tick = now => {
+        const progress = Math.min(1, (now - started) / duration);
+        const eased = 1 - (1 - progress) ** 3;
+        metric.textContent = `${Math.round(target * eased).toString().padStart(match[1].length, '0')}${suffix}`;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
   }
 
   /* ---- headline --------------------------------------------- */
@@ -92,6 +160,89 @@
     }
 
     $('.cursor', hl)?.remove();
+  }
+
+  /* ---- kinetic hero ----------------------------------------- */
+  /* A small, dependency-free motion layer inspired by anime.js demos:
+     the hero enters as a sequence, the headline resolves by character,
+     and desktop pointer movement adds a restrained physical feel. */
+  const hero = $('.hero');
+  if (hero && !reduced()) {
+    hero.dataset.kineticReady = '';
+
+    const entrance = [
+      $('.eyebrow', hero),
+      $('h1', hero),
+      $('.hero__creds', hero),
+      $('.hero__headline', hero),
+      $('.hero__pitch', hero),
+      $('.hero__meta', hero),
+      $('.hero__cta', hero)
+    ].filter(Boolean);
+
+    entrance.forEach((element, index) => {
+      element.style.setProperty('--kinetic-delay', `${index * 70}ms`);
+    });
+    requestAnimationFrame(() => { hero.dataset.kineticIn = ''; });
+
+    const headlineText = $('#headline-text', hero);
+    if (headlineText?.textContent) {
+      const text = headlineText.textContent;
+      headlineText.setAttribute('aria-label', text);
+      headlineText.textContent = '';
+      let characterIndex = 0;
+      text.split(/(\s+)/).forEach(part => {
+        if (/^\s+$/.test(part)) {
+          headlineText.appendChild(document.createTextNode(part.replace(/ /g, '\u00a0')));
+          return;
+        }
+        const word = document.createElement('span');
+        word.dataset.headlineWord = '';
+        word.setAttribute('aria-hidden', 'true');
+        [...part].forEach(character => {
+          const span = document.createElement('span');
+          span.dataset.headlineChar = '';
+          span.style.setProperty('--char-delay', `${characterIndex * 22}ms`);
+          span.textContent = character;
+          word.appendChild(span);
+          characterIndex += 1;
+        });
+        headlineText.appendChild(word);
+      });
+    }
+
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      $$('.btn', hero).forEach(button => {
+        button.dataset.magnetic = '';
+        button.addEventListener('pointermove', event => {
+          const bounds = button.getBoundingClientRect();
+          const x = (event.clientX - bounds.left - bounds.width / 2) * .12;
+          const y = (event.clientY - bounds.top - bounds.height / 2) * .12;
+          button.style.setProperty('--mag-x', `${x}px`);
+          button.style.setProperty('--mag-y', `${y}px`);
+        });
+        button.addEventListener('pointerleave', () => {
+          button.style.removeProperty('--mag-x');
+          button.style.removeProperty('--mag-y');
+        });
+      });
+
+      const visual = $('.hero__visual', hero);
+      if (visual) {
+        visual.dataset.kineticDepth = '';
+        hero.addEventListener('pointermove', event => {
+          const bounds = hero.getBoundingClientRect();
+          const x = (event.clientX - bounds.left) / bounds.width - .5;
+          const y = (event.clientY - bounds.top) / bounds.height - .5;
+          visual.style.setProperty('--tilt-x', `${x * 2.2}deg`);
+          visual.style.setProperty('--tilt-y', `${y * -2.2}deg`);
+        });
+        hero.addEventListener('pointerleave', () => {
+          visual.style.removeProperty('--tilt-x');
+          visual.style.removeProperty('--tilt-y');
+        });
+      }
+    }
   }
 
   /* ---- publication sorting --------------------------------- */
@@ -122,10 +273,17 @@
   /* ---- card pointer spotlight ------------------------------- */
   if (!reduced() && matchMedia('(hover: hover)').matches) {
     $$('.card').forEach(card => {
+      card.dataset.cardTilt = '';
       card.addEventListener('pointermove', e => {
         const r = card.getBoundingClientRect();
         card.style.setProperty('--mx', `${e.clientX - r.left}px`);
         card.style.setProperty('--my', `${e.clientY - r.top}px`);
+        card.style.setProperty('--card-tilt-x', `${((e.clientY - r.top) / r.height - .5) * -2.2}deg`);
+        card.style.setProperty('--card-tilt-y', `${((e.clientX - r.left) / r.width - .5) * 2.2}deg`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.removeProperty('--card-tilt-x');
+        card.style.removeProperty('--card-tilt-y');
       });
     });
   }
